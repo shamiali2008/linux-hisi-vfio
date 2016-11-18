@@ -658,7 +658,7 @@ static void its_irq_compose_msi_msg(struct irq_data *d, struct msi_msg *msg)
 	msg->address_hi		= addr >> 32;
 	msg->data		= its_get_event_id(d);
 
-	iommu_dma_map_msi_msg(d->irq, msg);
+	//iommu_dma_map_msi_msg(d->irq, msg);
 }
 
 static struct irq_chip its_irq_chip = {
@@ -1728,7 +1728,7 @@ static int __init its_probe(struct device_node *node,
 
 		translater = its->phys_base + GITS_TRANSLATER;
 		its->doorbell_info =
-			iommu_msi_doorbell_alloc(translater, sizeof(u32), true);
+			iommu_msi_doorbell_alloc(translater, sizeof(u32), false);
 
 		if (IS_ERR(its->doorbell_info))  {
 			kfree(info);
