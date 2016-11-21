@@ -226,9 +226,9 @@ static int vfio_pci_enable(struct vfio_pci_device *vdev)
 	if (ret)
 		return ret;
 
-	vdev->reset_works = (pci_reset_function(pdev) == 0);
-	pci_save_state(pdev);
-	vdev->pci_saved_state = pci_store_saved_state(pdev);
+	//vdev->reset_works = (pci_reset_function(pdev) == 0);
+	//pci_save_state(pdev);
+	//vdev->pci_saved_state = pci_store_saved_state(pdev);
 	if (!vdev->pci_saved_state)
 		pr_debug("%s: Couldn't store %s saved state\n",
 			 __func__, dev_name(&pdev->dev));
