@@ -280,6 +280,7 @@ static int mbigen_device_probe(struct platform_device *pdev)
 			return -ENOMEM;
 	}
 
+	dev_info(&pdev->dev, "Shameer: domain %p\n", domain);
 	platform_set_drvdata(pdev, mgn_chip);
 	return 0;
 }
@@ -299,7 +300,15 @@ static struct platform_driver mbigen_platform_driver = {
 	.probe			= mbigen_device_probe,
 };
 
-module_platform_driver(mbigen_platform_driver);
+static __init int mbigen_init(void)
+{
+	int ret;
+
+	ret = platform_driver_register(&mbigen_platform_driver);
+	printk("Shameer: mbigen_init ret %d\n",ret);
+	return ret;
+}
+arch_initcall(mbigen_init);
 
 MODULE_AUTHOR("Jun Ma <majun258@huawei.com>");
 MODULE_AUTHOR("Yun Wu <wuyun.wu@huawei.com>");
