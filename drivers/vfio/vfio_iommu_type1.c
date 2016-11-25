@@ -458,9 +458,12 @@ static bool vfio_msi_resv(struct vfio_iommu *iommu)
 	list_for_each_entry(d, &iommu->domain_list, next) {
 		ret = iommu_domain_get_attr(d->domain, DOMAIN_ATTR_MSI_RESV,
 					    &msi_resv);
-		if (!ret)
+		if (!ret) {
+			printk("Shameer: vfio_msi_resv ret true\n");
 			return true;
+		}
 	}
+	printk("Shameer: vfio_msi_resv ret false\n");
 	return false;
 }
 
@@ -973,8 +976,8 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
 	 * must support IRQ remapping (aka. interrupt translation)
 	 */
 	if (!allow_unsafe_interrupts &&
-	    (!iommu_capable(bus, IOMMU_CAP_INTR_REMAP) &&
-		!(vfio_msi_resv(iommu) && iommu_msi_doorbell_safe()))) {
+	  //  (!iommu_capable(bus, IOMMU_CAP_INTR_REMAP) &&
+		(!(vfio_msi_resv(iommu) && iommu_msi_doorbell_safe()))) {
 		pr_warn("%s: No interrupt remapping support.  Use the module param \"allow_unsafe_interrupts\" to enable VFIO IOMMU support on this platform\n",
 		       __func__);
 		ret = -EPERM;
@@ -1167,8 +1170,10 @@ static int msi_resv_caps(struct vfio_iommu *iommu, struct vfio_info_cap *caps)
 		}
 	}
 
-	if (!msi_resv.size)
+	if (!msi_resv.size) {
+		printk("Shameer msi_resv.size 0\n");
 		return 0;
+	}
 
 	mutex_unlock(&iommu->lock);
 

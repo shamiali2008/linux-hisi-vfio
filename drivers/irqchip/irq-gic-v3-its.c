@@ -1728,7 +1728,7 @@ static int __init its_probe(struct device_node *node,
 
 		translater = its->phys_base + GITS_TRANSLATER;
 		its->doorbell_info =
-			iommu_msi_doorbell_alloc(translater, sizeof(u32), false);
+			iommu_msi_doorbell_alloc(translater, sizeof(u32), true);
 
 		if (IS_ERR(its->doorbell_info))  {
 			kfree(info);
